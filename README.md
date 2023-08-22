@@ -16,9 +16,13 @@ You can view the climate analysis results in 'climate.ipynb', located in the rep
 
 ## Gallery of Significant Results:
 
-Picture:
+Precipitation:
 
-![Picture](Images/pic.png)
+![Bar chart of precipitation measurements for one year](Images/precipitation.png)
+
+Total observations:
+
+![Histogram of count of temperature observations](Images/tobs.png)
 
 ## Acknowledgments
 
