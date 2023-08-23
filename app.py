@@ -41,8 +41,6 @@ app.config["JSON_SORT_KEYS"] = False
 @app.route("/")
 def homepage():
     return f"""
-        Hello<br/>
-        <br/>
         Available Routes:<br/>
         <a href="/api/v1.0/precipitation">Precipitation</a><br/>
         <a href="/api/v1.0/stations">Stations</a><br/>
@@ -52,10 +50,9 @@ def homepage():
             End Date: <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD"><br>
             <input type="submit" value="Submit">
         </form>
-        <br/>
         /api/v1.0/start/&lt;start_date&gt;<br/>
         /api/v1.0/start/&lt;start_date&gt;/end/&lt;end_date&gt;<br/>
-        ---Insert start and end dates in YYYY-MM-DD format<br/>
+        ---Replace &lt;start_date&gt; and &lt;end_date&gt; with YYYY-MM-DD format<br/>
     """
 
 
