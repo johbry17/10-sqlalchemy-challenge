@@ -44,10 +44,18 @@ def homepage():
         Hello<br/>
         <br/>
         Available Routes:<br/>
-        /api/v1.0/precipitation<br/>
-        /api/v1.0/stations<br/>
-        /api/v1.0/tobs<br/>/api/v1.0/start/<start_date> ---Insert start date in YYYY-MM-DD format<br/>
-        /api/v1.0/start/<start_date>/end/<end_date> ---Insert start and end dates in YYYY-MM-DD format<br/>
+        <a href="/api/v1.0/precipitation">Precipitation</a><br/>
+        <a href="/api/v1.0/stations">Stations</a><br/>
+        <a href="/api/v1.0/tobs">tobs</a><br/>
+        <form action="/api/v1.0/start/" method="get">
+            Start Date: <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" required><br>
+            End Date: <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD"><br>
+            <input type="submit" value="Submit">
+        </form>
+        <br/>
+        /api/v1.0/start/&lt;start_date&gt;<br/>
+        /api/v1.0/start/&lt;start_date&gt;/end/&lt;end_date&gt;<br/>
+        ---Insert start and end dates in YYYY-MM-DD format<br/>
     """
 
 
@@ -56,6 +64,7 @@ def homepage():
 def precipitation():
     rows = s.query(M.date, M.prcp).filter(M.date >= year_prior).order_by(M.date).all()
     precip = {_.date: _.prcp for _ in rows}
+    s.close()
     return jsonify(precip)
 
 
@@ -79,6 +88,7 @@ def stations():
         }
         for _ in rows
     ]
+    s.close()
     return jsonify(results)
 
 
@@ -102,6 +112,7 @@ def most_active_station():
         }
         for _ in rows
     ]
+    s.close()
     return jsonify(mas)
 
 
@@ -116,36 +127,24 @@ def time_stats(query):
     min_temp, max_temp, avg_temp = query[0]
     return {"min_temp": min_temp, "max_temp": max_temp, "avg_temp": avg_temp}
 
-
-# start route - take start date and returns min, max, avg from start date to last date
+# two routes to return a JSON list of the min, average, and max temp for a specified start, or start-end range
+# use default value to combine both routes into one query
 @app.route("/api/v1.0/start/<start_date>")
-def start_time(start_date):
-    start = time(start_date)
-    results = time_stats(
-        s.query(func.min(M.tobs), func.max(M.tobs), func.avg(M.tobs)).filter(
-            M.date >= start
-        )
-    )
-    results["start_date"] = start
-    return jsonify(results)
-
-
-# start/end route - take start and end dates, returns min, max, avg temperatres
 @app.route("/api/v1.0/start/<start_date>/end/<end_date>")
-def start_and_end_time(start_date, end_date):
+def dates(start_date, end_date='2017-08-23'):
     start = time(start_date)
     end = time(end_date)
     results = time_stats(
         s.query(func.min(M.tobs), func.max(M.tobs), func.avg(M.tobs))
-        .filter(M.date >= start)
-        .filter(M.date <= end)
+        .filter((M.date >= start_date) & (M.date <= end_date))
     )
     results["start_date"] = start
     results["end_date"] = end
+    s.close()
     return jsonify(results)
 
 
-# close session
+# close session, in case it wasn't already done
 s.close()
 
 # run file
