@@ -41,23 +41,22 @@ app.config["JSON_SORT_KEYS"] = False
 @app.route("/")
 def homepage():
     return f"""
-        Hello<br/>
-        <br/>
-        Available Routes:<br/>
-        <a href="/api/v1.0/precipitation">Precipitation</a><br/>
-        <a href="/api/v1.0/stations">Stations</a><br/>
-        <a href="/api/v1.0/tobs">tobs</a><br/>
-        <br/>
-        ---Replace &lt;start_date&gt; and (optionally) &lt;end_date&gt; with YYYY-MM-DD format<br/>
-        ---I haven't learned javascript yet. Will make these clickable one day:<br/>
-        /api/v1.0/start/&lt;start_date&gt;<br/>
-        /api/v1.0/start/&lt;start_date&gt;/end/&lt;end_date&gt;<br/>
+        Hello<br>
+        <br>
+        Available Routes:<br>
+        <a href="/api/v1.0/precipitation">Precipitation</a><br>
+        <a href="/api/v1.0/stations">Stations</a><br>
+        <a href="/api/v1.0/tobs">tobs</a><br>
+        /api/v1.0/&lt;start_date&gt;<br>
+        /api/v1.0/&lt;start_date&gt;/&lt;end_date&gt;<br>
+        ---Replace &lt;start_date&gt; and (optionally) &lt;end_date&gt; with YYYY-MM-DD format<br>
+        ---I haven't learned javascript yet. Will make them clickable one day.
     """
 
 """
         experiment, trying to get forms to work with dynamic date ranges
         <form action="/api/v1.0/start/" method="get">
-            Start Date: <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" required><br>
+            Start Date: <input type="text" id="start_date" autofocus name="start_date" placeholder="YYYY-MM-DD" required><br>
             End Date: <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD"><br>
             <input type="submit" value="Submit">
         </form>
@@ -134,8 +133,8 @@ def time_stats(query):
 
 # two routes to return a JSON list of the min, average, and max temp for a specified start, or start-end range
 # use default value to combine both routes into one query
-@app.route("/api/v1.0/start/<start_date>")
-@app.route("/api/v1.0/start/<start_date>/end/<end_date>")
+@app.route("/api/v1.0/<start_date>")
+@app.route("/api/v1.0/<start_date>/<end_date>")
 def dates(start_date, end_date='2017-08-23'):
     start = time(start_date)
     end = time(end_date)

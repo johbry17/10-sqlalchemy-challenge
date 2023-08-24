@@ -12,15 +12,15 @@ After the analysis, Flask is used to create a climate API to return JSON's for t
 
 You can view the climate analysis results in 'climate.ipynb', located in the repository root. If you want to run the code, restart the kernel and 'run all'.
 
-'app.py' creates a climate api and returns JSON queries to users.
+'app.py' creates a climate api and returns JSON queries to users.  Run 'app.py' and open the developer website that it creates to view JSONs. The precipitation, weather stations, and temperature observations are hyperlinked. The start and start-end ones must be manually created, substituting in the date(s) in the appropriate format.
 
 ## Gallery of Significant Results:
 
-Precipitation:
+Exploratory Precipitation Analysis:
 
 ![Bar chart of precipitation measurements for one year](Images/precipitation.png)
 
-Total observations:
+Exploratory Analysis of Total Number of Temperature Observations:
 
 ![Histogram of count of temperature observations](Images/tobs.png)
 
