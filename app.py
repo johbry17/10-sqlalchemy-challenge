@@ -53,6 +53,7 @@ def homepage():
         ---I haven't learned javascript yet. Will make them clickable one day.
     """
 
+
 # precipitation route that returns key:value date:precipitation only for the prior year
 @app.route("/api/v1.0/precipitation")
 def precipitation():
@@ -121,21 +122,24 @@ def time_stats(query):
     min_temp, max_temp, avg_temp = query[0]
     return {"min_temp": min_temp, "max_temp": max_temp, "avg_temp": avg_temp}
 
+
 # two routes to return a JSON list of the min, average, and max temp for a specified start, or start-end range
 # use default value to combine both routes into one query
 @app.route("/api/v1.0/<start_date>")
 @app.route("/api/v1.0/<start_date>/<end_date>")
-def dates(start_date, end_date='2017-08-23'):
+def dates(start_date, end_date="2017-08-23"):
     start = time(start_date)
     end = time(end_date)
     results = time_stats(
-        s.query(func.min(M.tobs), func.max(M.tobs), func.avg(M.tobs))
-        .filter((M.date >= start_date) & (M.date <= end_date))
+        s.query(func.min(M.tobs), func.max(M.tobs), func.avg(M.tobs)).filter(
+            (M.date >= start_date) & (M.date <= end_date)
+        )
     )
     results["start_date"] = start
     results["end_date"] = end
     s.close()
     return jsonify(results)
+
 
 # close session, in case it wasn't already done
 s.close()
