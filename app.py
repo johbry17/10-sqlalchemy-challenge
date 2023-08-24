@@ -53,16 +53,6 @@ def homepage():
         ---I haven't learned javascript yet. Will make them clickable one day.
     """
 
-"""
-        experiment, trying to get forms to work with dynamic date ranges
-        <form action="/api/v1.0/start/" method="get">
-            Start Date: <input type="text" id="start_date" autofocus name="start_date" placeholder="YYYY-MM-DD" required><br>
-            End Date: <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD"><br>
-            <input type="submit" value="Submit">
-        </form>
-        <a href="/api/v1.0/start/{{ start_date }}">/api/v1.0/start/{{ start_date }}</a><br/>
-"""
-
 # precipitation route that returns key:value date:precipitation only for the prior year
 @app.route("/api/v1.0/precipitation")
 def precipitation():
@@ -146,7 +136,6 @@ def dates(start_date, end_date='2017-08-23'):
     results["end_date"] = end
     s.close()
     return jsonify(results)
-
 
 # close session, in case it wasn't already done
 s.close()
